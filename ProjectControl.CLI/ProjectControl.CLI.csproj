@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ProjectControl.Core\ProjectControl.Core.csproj" />
+    <ProjectReference Include="..\ProjectControl.Data\ProjectControl.Data.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

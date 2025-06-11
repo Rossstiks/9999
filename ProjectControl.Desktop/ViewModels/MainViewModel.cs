@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Threading;
 using ProjectControl.Core.Models;
 using ProjectControl.Desktop.Commands;
+using ProjectControl.Data;
 
 namespace ProjectControl.Desktop.ViewModels;
 

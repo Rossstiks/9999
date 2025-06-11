@@ -10,13 +10,24 @@ namespace ProjectControl.Desktop.ViewModels;
 
 public class MainViewModel
 {
-    private readonly DispatcherTimer _timer = new() { Interval = TimeSpan.FromSeconds(1) };
     private readonly ProjectRepository _repo;
-    private DateTime _currentStart;
     private Project? _activeProject;
 
     public ObservableCollection<Project> Projects { get; } = new();
     public ObservableCollection<TimeEntry> TimeEntries { get; } = new();
+
+    private Project? _selectedProject;
+    public Project? SelectedProject
+    {
+        get => _selectedProject;
+        set
+        {
+            _selectedProject = value;
+            PlayCommand.RaiseCanExecuteChanged();
+            PauseCommand.RaiseCanExecuteChanged();
+            StopCommand.RaiseCanExecuteChanged();
+        }
+    }
 
     public DelegateCommand PlayCommand { get; }
     public DelegateCommand PauseCommand { get; }
@@ -26,10 +37,9 @@ public class MainViewModel
     public MainViewModel(ProjectRepository repo)
     {
         _repo = repo;
-        _timer.Tick += (_, _) => { /* tick placeholder */ };
-        PlayCommand = new DelegateCommand(_ => StartTimer());
-        PauseCommand = new DelegateCommand(_ => PauseTimer(), _ => _activeProject != null);
-        StopCommand = new DelegateCommand(_ => StopTimer(), _ => _activeProject != null);
+        PlayCommand = new DelegateCommand(async _ => await StartTimerAsync(), _ => SelectedProject != null);
+        PauseCommand = new DelegateCommand(async _ => await PauseTimerAsync(), _ => SelectedProject != null);
+        StopCommand = new DelegateCommand(async _ => await StopTimerAsync(), _ => SelectedProject != null);
         NewProjectCommand = new DelegateCommand(_ => NewProject?.Invoke());
     }
 
@@ -43,45 +53,45 @@ public class MainViewModel
             Projects.Add(p);
     }
 
-    private void StartTimer()
+    private async Task StartTimerAsync()
     {
-        if (_activeProject != null)
-        {
-            PauseTimer();
-        }
-        _activeProject = Projects.FirstOrDefault();
-        if (_activeProject == null) return;
-        _currentStart = DateTime.Now;
-        _activeProject.CurrentTimerStartTime = _currentStart;
-        _activeProject.Status = ProjectStatus.InProgress;
-        _timer.Start();
+        if (SelectedProject == null)
+            return;
+
+        if (_activeProject != null && _activeProject.Id != SelectedProject.Id)
+            await _repo.PauseTimerAsync(_activeProject.Id);
+
+        await _repo.StartTimerAsync(SelectedProject.Id);
+        _activeProject = SelectedProject;
+        await LoadProjectsAsync();
     }
 
-    private void PauseTimer()
+    private async Task PauseTimerAsync()
     {
-        if (_activeProject == null) return;
-        _timer.Stop();
-        var end = DateTime.Now;
-        var duration = (long)(end - _currentStart).TotalSeconds;
-        TimeEntries.Add(new TimeEntry
-        {
-            ProjectId = _activeProject.Id,
-            StartTime = _currentStart,
-            EndTime = end,
-            Duration = duration
-        });
-        _activeProject.TotalTimeSpent += duration;
-        _activeProject.CurrentTimerStartTime = null;
-        _activeProject.Status = ProjectStatus.Paused;
-        _activeProject = null;
+        if (SelectedProject == null)
+            return;
+
+        await _repo.PauseTimerAsync(SelectedProject.Id);
+        if (_activeProject?.Id == SelectedProject.Id)
+            _activeProject = null;
+        await LoadProjectsAsync();
     }
 
-    private void StopTimer()
+    private async Task StopTimerAsync()
     {
-        if (_activeProject == null) return;
-        var project = _activeProject;
-        PauseTimer();
-        project.ActualCompletionDate = DateTime.Now;
-        project.Status = ProjectStatus.Completed;
+        if (SelectedProject == null)
+            return;
+
+        await _repo.CompleteProjectAsync(
+            SelectedProject.Id,
+            PaymentStatus.Unpaid,
+            0,
+            null,
+            null);
+
+        if (_activeProject?.Id == SelectedProject.Id)
+            _activeProject = null;
+
+        await LoadProjectsAsync();
     }
 }

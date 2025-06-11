@@ -7,6 +7,7 @@
 - `ProjectControl.Core` – библиотека классов с основными моделями данных.
 - `ProjectControl.CLI` – пример консольного приложения, демонстрирующий использование моделей.
 - `ProjectControl.Data` – класс‑библиотека c `DbContext` на Entity Framework Core.
+- `ProjectControl.Desktop` – WPF‑приложение с графическим интерфейсом.
 
 ## Быстрый старт
 1. Требуется .NET SDK 8.0.
@@ -17,6 +18,10 @@
 3. Запустите пример консольного приложения:
    ```bash
    dotnet run --project ProjectControl.CLI
+   ```
+4. Запустите WPF‑приложение:
+   ```bash
+   dotnet run --project ProjectControl.Desktop
    ```
 
 Для работы с базой данных используйте Entity Framework Core. Пример инициализации контекста находится в проекте `ProjectControl.Data`.

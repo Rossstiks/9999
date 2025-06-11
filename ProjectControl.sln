@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectControl.CLI", "Proje
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectControl.Data", "ProjectControl.Data\ProjectControl.Data.csproj", "{F7A69527-BCBF-42B7-81E4-7E15112333D6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectControl.Desktop", "ProjectControl.Desktop\ProjectControl.Desktop.csproj", "{B9792162-CF5B-4125-B4BD-948573C42EB4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
                 {F7A69527-BCBF-42B7-81E4-7E15112333D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
                 {F7A69527-BCBF-42B7-81E4-7E15112333D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
                 {F7A69527-BCBF-42B7-81E4-7E15112333D6}.Release|Any CPU.Build.0 = Release|Any CPU
+                {B9792162-CF5B-4125-B4BD-948573C42EB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+                {B9792162-CF5B-4125-B4BD-948573C42EB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+                {B9792162-CF5B-4125-B4BD-948573C42EB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+                {B9792162-CF5B-4125-B4BD-948573C42EB4}.Release|Any CPU.Build.0 = Release|Any CPU
         EndGlobalSection
 EndGlobal

@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ProjectControl.Core\ProjectControl.Core.csproj" />
+    <ProjectReference Include="..\ProjectControl.Data\ProjectControl.Data.csproj" />
+  </ItemGroup>
+</Project>

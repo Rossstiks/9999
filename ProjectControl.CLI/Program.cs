@@ -11,18 +11,24 @@ var options = new DbContextOptionsBuilder<ProjectControlContext>()
 using var context = new ProjectControlContext(options);
 await context.Database.EnsureCreatedAsync();
 
-var repo = new ProjectRepository(context);
+var projectRepo = new ProjectRepository(context);
+var customerRepo = new CustomerRepository(context);
 
-var project = new Project { Name = "Demo", CustomerId = 1 };
-await repo.AddProjectAsync(project);
+// Добавим заказчика при первом запуске
+var customer = new Customer { Name = "Demo customer" };
+await customerRepo.AddCustomerAsync(customer);
+Console.WriteLine($"Создан заказчик с Id {customer.Id}");
+
+var project = new Project { Name = "Demo", CustomerId = customer.Id };
+await projectRepo.AddProjectAsync(project);
 Console.WriteLine($"Создан проект с Id {project.Id}");
 
-await repo.StartTimerAsync(project.Id);
+await projectRepo.StartTimerAsync(project.Id);
 Console.WriteLine("Таймер запущен...");
 await Task.Delay(1000);
-await repo.PauseTimerAsync(project.Id);
+await projectRepo.PauseTimerAsync(project.Id);
 Console.WriteLine("Таймер остановлен. Всего секунд: " + project.TotalTimeSpent);
 
-var projects = await repo.GetProjectsAsync();
+var projects = await projectRepo.GetProjectsAsync();
 Console.WriteLine($"В базе проектов: {projects.Count}");
 

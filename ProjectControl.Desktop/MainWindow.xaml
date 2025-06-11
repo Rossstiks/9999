@@ -8,6 +8,7 @@
             <Button Content="⏸" Width="50" Margin="5" Command="{Binding PauseCommand}"/>
             <Button Content="⏹" Width="50" Margin="5" Command="{Binding StopCommand}"/>
             <Button Content="＋" Width="50" Margin="5" Click="OnAddProject"/>
+            <Button Content="Заказчики" Width="80" Margin="5" Click="OnCustomers"/>
         </StackPanel>
         <ListBox ItemsSource="{Binding Projects}" DisplayMemberPath="Name" />
     </DockPanel>

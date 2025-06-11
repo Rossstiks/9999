@@ -18,6 +18,9 @@ public class ProjectRepository
     public async Task<List<Project>> GetProjectsAsync()
         => await _context.Projects.ToListAsync();
 
+    public async Task<List<Project>> GetProjectsWithCustomerAsync()
+        => await _context.Projects.Include(p => p.Customer).ToListAsync();
+
     public async Task<Project> AddProjectAsync(Project project)
     {
         _context.Projects.Add(project);

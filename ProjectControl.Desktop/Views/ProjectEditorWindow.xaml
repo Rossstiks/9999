@@ -10,6 +10,8 @@
         <StackPanel>
             <TextBlock Text="Название" />
             <TextBox Text="{Binding Project.Name, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Text="Заказчик" Margin="0,10,0,0" />
+            <ComboBox ItemsSource="{Binding Customers}" SelectedItem="{Binding SelectedCustomer}" DisplayMemberPath="Name" />
             <TextBlock Text="Описание" Margin="0,10,0,0" />
             <TextBox Text="{Binding Project.Description}" AcceptsReturn="True" Height="80" />
         </StackPanel>

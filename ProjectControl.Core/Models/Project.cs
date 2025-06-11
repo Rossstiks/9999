@@ -9,6 +9,7 @@ namespace ProjectControl.Core.Models
         public string Name { get; set; } = string.Empty;
         public string? Description { get; set; }
         public long CustomerId { get; set; }
+        public Customer? Customer { get; set; }
         public DateTime CreationDate { get; set; } = DateTime.Now;
         public DateTime? StartDate { get; set; }
         public DateTime? DueDate { get; set; }

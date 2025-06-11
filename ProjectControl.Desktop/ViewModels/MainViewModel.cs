@@ -49,7 +49,7 @@ public class MainViewModel
     public async Task LoadProjectsAsync()
     {
         Projects.Clear();
-        foreach (var p in await _repo.GetProjectsAsync())
+        foreach (var p in await _repo.GetProjectsWithCustomerAsync())
             Projects.Add(p);
     }
 

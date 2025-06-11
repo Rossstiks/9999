@@ -67,4 +67,22 @@ public partial class MainWindow : Window
         var win = new AnalyticsWindow(analyticsVm);
         win.ShowDialog();
     }
+
+    private void OnFilterChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+    {
+        if (DataContext is MainViewModel vm && sender is System.Windows.Controls.TextBox tb)
+        {
+            vm.FilterText = tb.Text;
+            vm.ApplyFilterSort();
+        }
+    }
+
+    private void OnSortChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    {
+        if (DataContext is MainViewModel vm && sender is System.Windows.Controls.ComboBox cb)
+        {
+            vm.SortMode = cb.SelectedIndex == 1 ? ProjectSortMode.Time : ProjectSortMode.Name;
+            vm.ApplyFilterSort();
+        }
+    }
 }

@@ -28,4 +28,24 @@ public class ProjectRepositoryTests
 
         Assert.Single(await context.TimeEntries.ToListAsync());
     }
+
+    [Fact]
+    public async Task CompleteProjectSetsStatusAndPayment()
+    {
+        using var context = CreateContext();
+        var repo = new ProjectRepository(context);
+        var project = new Project { Name = "Test" };
+        await repo.AddProjectAsync(project);
+
+        await repo.StartTimerAsync(project.Id);
+        await Task.Delay(10);
+        await repo.CompleteProjectAsync(project.Id, PaymentStatus.Paid, 50, System.DateTime.Today, "done");
+
+        var updated = await context.Projects.FindAsync(project.Id);
+        Assert.NotNull(updated);
+        Assert.Equal(ProjectStatus.Completed, updated!.Status);
+        Assert.Equal(PaymentStatus.Paid, updated.PaymentStatus);
+        Assert.Equal(50, updated.PaymentAmount);
+        Assert.NotNull(updated.ActualCompletionDate);
+    }
 }

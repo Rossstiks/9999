@@ -1,6 +1,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Threading;
 using ProjectControl.Core.Models;
 using ProjectControl.Desktop.Commands;
@@ -10,6 +11,7 @@ namespace ProjectControl.Desktop.ViewModels;
 public class MainViewModel
 {
     private readonly DispatcherTimer _timer = new() { Interval = TimeSpan.FromSeconds(1) };
+    private readonly ProjectRepository _repo;
     private DateTime _currentStart;
     private Project? _activeProject;
 
@@ -19,17 +21,26 @@ public class MainViewModel
     public DelegateCommand PlayCommand { get; }
     public DelegateCommand PauseCommand { get; }
     public DelegateCommand StopCommand { get; }
+    public DelegateCommand NewProjectCommand { get; }
 
-    public MainViewModel()
+    public MainViewModel(ProjectRepository repo)
     {
+        _repo = repo;
         _timer.Tick += (_, _) => { /* tick placeholder */ };
         PlayCommand = new DelegateCommand(_ => StartTimer());
         PauseCommand = new DelegateCommand(_ => PauseTimer(), _ => _activeProject != null);
         StopCommand = new DelegateCommand(_ => StopTimer(), _ => _activeProject != null);
+        NewProjectCommand = new DelegateCommand(_ => NewProject?.Invoke());
+    }
 
-        // Demo data
-        Projects.Add(new Project { Id = 1, Name = "Первый проект", CustomerId = 1 });
-        Projects.Add(new Project { Id = 2, Name = "Второй проект", CustomerId = 1 });
+    public Func<Task>? LoadProjectsAsyncAction { get; set; }
+    public Action? NewProject { get; set; }
+
+    public async Task LoadProjectsAsync()
+    {
+        Projects.Clear();
+        foreach (var p in await _repo.GetProjectsAsync())
+            Projects.Add(p);
     }
 
     private void StartTimer()

@@ -7,6 +7,7 @@
             <Button Content="▶" Width="50" Margin="5" Command="{Binding PlayCommand}"/>
             <Button Content="⏸" Width="50" Margin="5" Command="{Binding PauseCommand}"/>
             <Button Content="⏹" Width="50" Margin="5" Command="{Binding StopCommand}"/>
+            <Button Content="＋" Width="50" Margin="5" Click="OnAddProject"/>
         </StackPanel>
         <ListBox ItemsSource="{Binding Projects}" DisplayMemberPath="Name" />
     </DockPanel>

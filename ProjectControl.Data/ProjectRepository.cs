@@ -25,6 +25,12 @@ public class ProjectRepository
         return project;
     }
 
+    public async Task UpdateProjectAsync(Project project)
+    {
+        _context.Projects.Update(project);
+        await _context.SaveChangesAsync();
+    }
+
     public async Task StartTimerAsync(long projectId)
     {
         var project = await _context.Projects.FindAsync(projectId);

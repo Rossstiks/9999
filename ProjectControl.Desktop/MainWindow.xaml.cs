@@ -4,6 +4,7 @@ using ProjectControl.Data;
 using ProjectControl.Desktop.ViewModels;
 using ProjectControl.Desktop.Views;
 
+
 namespace ProjectControl.Desktop;
 
 public partial class MainWindow : Window
@@ -56,6 +57,14 @@ public partial class MainWindow : Window
             };
             editWin.ShowDialog();
         };
+        win.ShowDialog();
+    }
+
+    private async void OnAnalytics(object sender, RoutedEventArgs e)
+    {
+        var analyticsVm = new AnalyticsViewModel(_repo);
+        await analyticsVm.LoadProjectsAsync();
+        var win = new AnalyticsWindow(analyticsVm);
         win.ShowDialog();
     }
 }

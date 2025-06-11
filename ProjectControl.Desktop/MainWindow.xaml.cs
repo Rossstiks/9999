@@ -53,6 +53,25 @@ public partial class MainWindow : Window
             editorVm.Saved += async () =>
             {
                 await listVm.LoadCustomersAsync();
+                await _vm.LoadProjectsAsync();
+                editWin.Close();
+            };
+            editWin.ShowDialog();
+        };
+        listVm.EditCustomer += customer =>
+        {
+            var editorVm = new CustomerEditorViewModel(_customerRepo, customer);
+            var editWin = new CustomerEditorWindow(editorVm);
+            editorVm.Saved += async () =>
+            {
+                await listVm.LoadCustomersAsync();
+                await _vm.LoadProjectsAsync();
+                editWin.Close();
+            };
+            editorVm.Deleted += async () =>
+            {
+                await listVm.LoadCustomersAsync();
+                await _vm.LoadProjectsAsync();
                 editWin.Close();
             };
             editWin.ShowDialog();

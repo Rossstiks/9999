@@ -29,7 +29,7 @@
                         <TextBlock Text="{Binding Name}" Width="120"/>
                         <TextBlock Text="{Binding Customer.Name}" Width="100" Margin="10,0,0,0"/>
                         <TextBlock Text="{Binding Status}" Width="80" Margin="10,0,0,0"/>
-                        <TextBlock Text="{Binding TotalTimeSpent, Converter={StaticResource TimeFormat}}" Margin="10,0,0,0"/>
+                        <TextBlock Text="{Binding RunningTime, Converter={StaticResource TimeFormat}}" Margin="10,0,0,0"/>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

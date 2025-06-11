@@ -6,6 +6,7 @@
 - `ProjectControl.sln` – решение .NET.
 - `ProjectControl.Core` – библиотека классов с основными моделями данных.
 - `ProjectControl.CLI` – пример консольного приложения, демонстрирующий использование моделей.
+- `ProjectControl.Data` – класс‑библиотека c `DbContext` на Entity Framework Core.
 
 ## Быстрый старт
 1. Требуется .NET SDK 8.0.
@@ -17,6 +18,8 @@
    ```bash
    dotnet run --project ProjectControl.CLI
    ```
+
+Для работы с базой данных используйте Entity Framework Core. Пример инициализации контекста находится в проекте `ProjectControl.Data`.
 
 ## Дальнейшие шаги
 Подробное описание шагов по созданию полноценного приложения находится в файле `PLAN.md`.

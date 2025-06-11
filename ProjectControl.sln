@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectControl.Core", "Proj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectControl.CLI", "ProjectControl.CLI\ProjectControl.CLI.csproj", "{210AD382-2056-4212-985E-7F1BEF4DF0C4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectControl.Data", "ProjectControl.Data\ProjectControl.Data.csproj", "{F7A69527-BCBF-42B7-81E4-7E15112333D6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +25,10 @@ Global
 		{210AD382-2056-4212-985E-7F1BEF4DF0C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{210AD382-2056-4212-985E-7F1BEF4DF0C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{210AD382-2056-4212-985E-7F1BEF4DF0C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{210AD382-2056-4212-985E-7F1BEF4DF0C4}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
+                {210AD382-2056-4212-985E-7F1BEF4DF0C4}.Release|Any CPU.Build.0 = Release|Any CPU
+                {F7A69527-BCBF-42B7-81E4-7E15112333D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+                {F7A69527-BCBF-42B7-81E4-7E15112333D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+                {F7A69527-BCBF-42B7-81E4-7E15112333D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+                {F7A69527-BCBF-42B7-81E4-7E15112333D6}.Release|Any CPU.Build.0 = Release|Any CPU
+        EndGlobalSection
 EndGlobal

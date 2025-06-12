@@ -26,9 +26,9 @@
         <ListBox ItemsSource="{Binding FilteredProjects}" SelectedItem="{Binding SelectedProject}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                         <TextBlock Text="{Binding Name}" Width="120"/>
-                        <TextBlock Text="{Binding Customer.Name}" Width="100" Margin="10,0,0,0"/>
+                        <TextBlock Text="{Binding Customer.Name}" Width="120" Margin="10,0,0,0"/>
                         <TextBlock Text="{Binding Status}" Width="80" Margin="10,0,0,0"/>
                         <TextBlock Margin="10,0,0,0">
                             <TextBlock.Text>
@@ -39,6 +39,7 @@
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
+                        <TextBlock Text="ℹ" Margin="10,0,0,0" ToolTip="{Binding Description}"/>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

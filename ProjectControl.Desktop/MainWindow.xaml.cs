@@ -88,10 +88,14 @@ public partial class MainWindow : Window
 
     private async void OnTabChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
     {
-        if (DataContext is MainViewModel vm && sender is System.Windows.Controls.TabControl tc)
-        {
-            vm.CompletedOnly = tc.SelectedIndex == 1;
-            await vm.LoadProjectsAsync();
-        }
+        if (DataContext is not MainViewModel vm || sender is not System.Windows.Controls.TabControl tc)
+            return;
+
+        // Ignore bubbling events from inner ListBox controls
+        if (!ReferenceEquals(e.OriginalSource, tc))
+            return;
+
+        vm.CompletedOnly = tc.SelectedIndex == 1;
+        await vm.LoadProjectsAsync();
     }
 }

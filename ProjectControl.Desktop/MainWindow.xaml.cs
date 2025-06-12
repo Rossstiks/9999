@@ -85,4 +85,13 @@ public partial class MainWindow : Window
             vm.ApplyFilterSort();
         }
     }
+
+    private async void OnTabChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    {
+        if (DataContext is MainViewModel vm && sender is System.Windows.Controls.TabControl tc)
+        {
+            vm.CompletedOnly = tc.SelectedIndex == 1;
+            await vm.LoadProjectsAsync();
+        }
+    }
 }

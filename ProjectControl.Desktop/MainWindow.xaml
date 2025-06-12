@@ -23,26 +23,53 @@
             <Button Content="Заказчики" Width="80" Margin="5" Click="OnCustomers"/>
             <Button Content="Аналитика" Width="80" Margin="5" Click="OnAnalytics"/>
         </StackPanel>
-        <ListBox ItemsSource="{Binding FilteredProjects}" SelectedItem="{Binding SelectedProject}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <TextBlock Text="{Binding Name}" Width="120"/>
-                        <TextBlock Text="{Binding Customer.Name}" Width="120" Margin="10,0,0,0"/>
-                        <TextBlock Text="{Binding Status}" Width="80" Margin="10,0,0,0"/>
-                        <TextBlock Margin="10,0,0,0">
-                            <TextBlock.Text>
-                                <MultiBinding Converter="{StaticResource RunningTime}">
-                                    <Binding Path="TotalTimeSpent"/>
-                                    <Binding Path="CurrentTimerStartTime"/>
-                                    <Binding Path="DataContext.Now" RelativeSource="{RelativeSource AncestorType=Window}"/>
-                                </MultiBinding>
-                            </TextBlock.Text>
-                        </TextBlock>
-                        <TextBlock Text="ℹ" Margin="10,0,0,0" ToolTip="{Binding Description}"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+        <TabControl SelectionChanged="OnTabChanged">
+            <TabItem Header="Текущие проекты">
+                <ListBox ItemsSource="{Binding FilteredProjects}" SelectedItem="{Binding SelectedProject}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Name}" Width="120"/>
+                                <TextBlock Text="{Binding Customer.Name}" Width="120" Margin="10,0,0,0"/>
+                                <TextBlock Text="{Binding Status}" Width="80" Margin="10,0,0,0"/>
+                                <TextBlock Margin="10,0,0,0">
+                                    <TextBlock.Text>
+                                        <MultiBinding Converter="{StaticResource RunningTime}">
+                                            <Binding Path="TotalTimeSpent"/>
+                                            <Binding Path="CurrentTimerStartTime"/>
+                                            <Binding Path="DataContext.Now" RelativeSource="{RelativeSource AncestorType=Window}"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                                <TextBlock Text="ℹ" Margin="10,0,0,0" ToolTip="{Binding Description}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </TabItem>
+            <TabItem Header="Завершенные">
+                <ListBox ItemsSource="{Binding FilteredProjects}" SelectedItem="{Binding SelectedProject}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Name}" Width="120"/>
+                                <TextBlock Text="{Binding Customer.Name}" Width="120" Margin="10,0,0,0"/>
+                                <TextBlock Text="{Binding Status}" Width="80" Margin="10,0,0,0"/>
+                                <TextBlock Margin="10,0,0,0">
+                                    <TextBlock.Text>
+                                        <MultiBinding Converter="{StaticResource RunningTime}">
+                                            <Binding Path="TotalTimeSpent"/>
+                                            <Binding Path="CurrentTimerStartTime"/>
+                                            <Binding Path="DataContext.Now" RelativeSource="{RelativeSource AncestorType=Window}"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                                <TextBlock Text="ℹ" Margin="10,0,0,0" ToolTip="{Binding Description}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </TabItem>
+        </TabControl>
     </DockPanel>
 </Window>

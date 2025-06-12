@@ -17,11 +17,16 @@ public class ProjectRepository
     }
 
     public async Task<List<Project>> GetProjectsAsync()
-        => await _context.Projects.ToListAsync();
+        => await _context.Projects
+            .AsNoTracking()
+            .ToListAsync();
 
     public async Task<List<Project>> GetProjectsWithCustomerAsync(ProjectStatus? status = null)
     {
-        var query = _context.Projects.Include(p => p.Customer).AsQueryable();
+        var query = _context.Projects
+            .Include(p => p.Customer)
+            .AsNoTracking()
+            .AsQueryable();
         if (status != null)
             query = query.Where(p => p.Status == status);
         return await query.ToListAsync();

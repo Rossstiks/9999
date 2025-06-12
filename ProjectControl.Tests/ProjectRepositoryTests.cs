@@ -48,4 +48,22 @@ public class ProjectRepositoryTests
         Assert.Equal(50, updated.PaymentAmount);
         Assert.NotNull(updated.ActualCompletionDate);
     }
+
+    [Fact]
+    public async Task AddProjectWithCustomerPersistsCustomerId()
+    {
+        using var context = CreateContext();
+        var repo = new ProjectRepository(context);
+        var customer = new Customer { Name = "Cust" };
+        context.Customers.Add(customer);
+        await context.SaveChangesAsync();
+
+        var project = new Project { Name = "Test", CustomerId = customer.Id };
+        await repo.AddProjectAsync(project);
+
+        var projects = await repo.GetProjectsWithCustomerAsync();
+        Assert.Single(projects);
+        Assert.Equal(customer.Id, projects[0].CustomerId);
+        Assert.Equal("Cust", projects[0].Customer?.Name);
+    }
 }

@@ -57,7 +57,10 @@ public class ProjectEditorViewModel : INotifyPropertyChanged
     private async Task SaveAsync()
     {
         if (SelectedCustomer != null)
+        {
             Project.CustomerId = SelectedCustomer.Id;
+            Project.Customer = SelectedCustomer;
+        }
         if (Project.Id == 0)
             await _repo.AddProjectAsync(Project);
         else

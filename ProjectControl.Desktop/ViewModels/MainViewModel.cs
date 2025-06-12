@@ -45,6 +45,20 @@ public class MainViewModel : INotifyPropertyChanged
     public DelegateCommand StopCommand { get; }
     public DelegateCommand NewProjectCommand { get; }
 
+    private bool _completedOnly;
+    public bool CompletedOnly
+    {
+        get => _completedOnly;
+        set
+        {
+            if (_completedOnly != value)
+            {
+                _completedOnly = value;
+                OnPropertyChanged(nameof(CompletedOnly));
+            }
+        }
+    }
+
     private readonly DispatcherTimer _timer = new() { Interval = TimeSpan.FromSeconds(1) };
     private DateTime _now = DateTime.Now;
     public DateTime Now
@@ -78,8 +92,13 @@ public class MainViewModel : INotifyPropertyChanged
     public async Task LoadProjectsAsync()
     {
         Projects.Clear();
-        foreach (var p in await _repo.GetProjectsWithCustomerAsync())
+        var all = await _repo.GetProjectsWithCustomerAsync(CompletedOnly ? ProjectStatus.Completed : null);
+        foreach (var p in all)
+        {
+            if (!CompletedOnly && p.Status == ProjectStatus.Completed)
+                continue;
             Projects.Add(p);
+        }
         ApplyFilterSort();
     }
 

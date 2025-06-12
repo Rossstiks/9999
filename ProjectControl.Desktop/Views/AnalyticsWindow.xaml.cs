@@ -12,6 +12,12 @@ public partial class AnalyticsWindow : Window
         DataContext = vm;
     }
 
+    private async void OnFilterChanged(object sender, RoutedEventArgs e)
+    {
+        if (DataContext is AnalyticsViewModel vm)
+            await vm.LoadProjectsAsync();
+    }
+
     private void OnExportCsv(object sender, RoutedEventArgs e)
     {
         if (DataContext is not AnalyticsViewModel vm)

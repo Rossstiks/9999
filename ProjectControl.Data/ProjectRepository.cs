@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ProjectControl.Core.Models;
@@ -18,8 +19,13 @@ public class ProjectRepository
     public async Task<List<Project>> GetProjectsAsync()
         => await _context.Projects.ToListAsync();
 
-    public async Task<List<Project>> GetProjectsWithCustomerAsync()
-        => await _context.Projects.Include(p => p.Customer).ToListAsync();
+    public async Task<List<Project>> GetProjectsWithCustomerAsync(ProjectStatus? status = null)
+    {
+        var query = _context.Projects.Include(p => p.Customer).AsQueryable();
+        if (status != null)
+            query = query.Where(p => p.Status == status);
+        return await query.ToListAsync();
+    }
 
     public async Task<Project> AddProjectAsync(Project project)
     {

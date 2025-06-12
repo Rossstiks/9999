@@ -5,6 +5,7 @@
         Title="ProjectControl" Height="350" Width="525">
     <Window.Resources>
         <conv:TimeFormatConverter x:Key="TimeFormat" />
+        <conv:RunningTimeConverter x:Key="RunningTime" />
     </Window.Resources>
     <DockPanel Margin="10">
         <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
@@ -29,7 +30,15 @@
                         <TextBlock Text="{Binding Name}" Width="120"/>
                         <TextBlock Text="{Binding Customer.Name}" Width="100" Margin="10,0,0,0"/>
                         <TextBlock Text="{Binding Status}" Width="80" Margin="10,0,0,0"/>
-                        <TextBlock Text="{Binding TotalTimeSpent, Converter={StaticResource TimeFormat}}" Margin="10,0,0,0"/>
+                        <TextBlock Margin="10,0,0,0">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource RunningTime}">
+                                    <Binding Path="TotalTimeSpent"/>
+                                    <Binding Path="CurrentTimerStartTime"/>
+                                    <Binding Path="DataContext.Now" RelativeSource="{RelativeSource AncestorType=Window}"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

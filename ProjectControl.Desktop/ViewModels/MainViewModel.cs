@@ -15,7 +15,7 @@ public enum ProjectSortMode
     Time
 }
 
-public class MainViewModel
+public class MainViewModel : INotifyPropertyChanged
 {
     private readonly ProjectRepository _repo;
     private Project? _activeProject;
@@ -45,6 +45,18 @@ public class MainViewModel
     public DelegateCommand StopCommand { get; }
     public DelegateCommand NewProjectCommand { get; }
 
+    private readonly DispatcherTimer _timer = new() { Interval = TimeSpan.FromSeconds(1) };
+    private DateTime _now = DateTime.Now;
+    public DateTime Now
+    {
+        get => _now;
+        private set
+        {
+            _now = value;
+            OnPropertyChanged(nameof(Now));
+        }
+    }
+
     public MainViewModel(ProjectRepository repo)
     {
         _repo = repo;
@@ -52,10 +64,16 @@ public class MainViewModel
         PauseCommand = new DelegateCommand(async _ => await PauseTimerAsync(), _ => SelectedProject != null);
         StopCommand = new DelegateCommand(async _ => await StopTimerAsync(), _ => SelectedProject != null);
         NewProjectCommand = new DelegateCommand(_ => NewProject?.Invoke());
+        _timer.Tick += (_, _) => Now = DateTime.Now;
+        _timer.Start();
     }
 
     public Func<Task>? LoadProjectsAsyncAction { get; set; }
     public Action? NewProject { get; set; }
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    private void OnPropertyChanged(string propertyName)
+        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
     public async Task LoadProjectsAsync()
     {

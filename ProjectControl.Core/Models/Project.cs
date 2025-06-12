@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.CompilerServices;
 
 namespace ProjectControl.Core.Models
 {
-    public class Project
+    public class Project : INotifyPropertyChanged
     {
         public long Id { get; set; }
         public string Name { get; set; } = string.Empty;
@@ -25,5 +28,19 @@ namespace ProjectControl.Core.Models
         public List<string>? Tags { get; set; }
         public double? EstimatedBudget { get; set; }
         public string? ProjectLink { get; set; }
+
+        [NotMapped]
+        public long RunningTime =>
+            TotalTimeSpent + (CurrentTimerStartTime != null
+                ? (long)(DateTime.Now - CurrentTimerStartTime.Value).TotalSeconds
+                : 0);
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public void NotifyRunningTimeChanged()
+            => OnPropertyChanged(nameof(RunningTime));
+
+        protected void OnPropertyChanged([CallerMemberName] string? name = null)
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 }

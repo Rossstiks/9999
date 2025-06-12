@@ -19,6 +19,7 @@ public class MainViewModel
 {
     private readonly ProjectRepository _repo;
     private Project? _activeProject;
+    private readonly DispatcherTimer _timer;
 
     public ObservableCollection<Project> Projects { get; } = new();
     public ObservableCollection<Project> FilteredProjects { get; } = new();
@@ -52,6 +53,10 @@ public class MainViewModel
         PauseCommand = new DelegateCommand(async _ => await PauseTimerAsync(), _ => SelectedProject != null);
         StopCommand = new DelegateCommand(async _ => await StopTimerAsync(), _ => SelectedProject != null);
         NewProjectCommand = new DelegateCommand(_ => NewProject?.Invoke());
+
+        _timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
+        _timer.Tick += (_, _) => _activeProject?.NotifyRunningTimeChanged();
+        _timer.Start();
     }
 
     public Func<Task>? LoadProjectsAsyncAction { get; set; }
@@ -62,6 +67,7 @@ public class MainViewModel
         Projects.Clear();
         foreach (var p in await _repo.GetProjectsWithCustomerAsync())
             Projects.Add(p);
+        _activeProject = Projects.FirstOrDefault(p => p.CurrentTimerStartTime != null);
         ApplyFilterSort();
     }
 
@@ -89,8 +95,8 @@ public class MainViewModel
             await _repo.PauseTimerAsync(_activeProject.Id);
 
         await _repo.StartTimerAsync(SelectedProject.Id);
-        _activeProject = SelectedProject;
         await LoadProjectsAsync();
+        _activeProject?.NotifyRunningTimeChanged();
     }
 
     private async Task PauseTimerAsync()
@@ -99,8 +105,6 @@ public class MainViewModel
             return;
 
         await _repo.PauseTimerAsync(SelectedProject.Id);
-        if (_activeProject?.Id == SelectedProject.Id)
-            _activeProject = null;
         await LoadProjectsAsync();
     }
 
@@ -115,9 +119,6 @@ public class MainViewModel
             0,
             null,
             null);
-
-        if (_activeProject?.Id == SelectedProject.Id)
-            _activeProject = null;
 
         await LoadProjectsAsync();
     }

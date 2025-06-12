@@ -13,6 +13,7 @@ public class AnalyticsViewModel
 {
     private readonly ProjectRepository _repo;
     public ObservableCollection<Project> Projects { get; } = new();
+    public bool CompletedOnly { get; set; }
 
     public AnalyticsViewModel(ProjectRepository repo)
     {
@@ -24,7 +25,8 @@ public class AnalyticsViewModel
     public async Task LoadProjectsAsync()
     {
         Projects.Clear();
-        foreach (var p in await _repo.GetProjectsWithCustomerAsync())
+        var status = CompletedOnly ? ProjectStatus.Completed : null as ProjectStatus?;
+        foreach (var p in await _repo.GetProjectsWithCustomerAsync(status))
             Projects.Add(p);
     }
 

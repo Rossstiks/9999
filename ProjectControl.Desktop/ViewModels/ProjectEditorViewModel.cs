@@ -8,7 +8,9 @@ using ProjectControl.Desktop.Commands;
 
 namespace ProjectControl.Desktop.ViewModels;
 
-public class ProjectEditorViewModel
+using System.ComponentModel;
+
+public class ProjectEditorViewModel : INotifyPropertyChanged
 {
     private readonly ProjectRepository _repo;
     private readonly CustomerRepository _customerRepo;
@@ -17,6 +19,7 @@ public class ProjectEditorViewModel
     public DelegateCommand SaveCommand { get; }
 
     public event Action? Saved;
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     public ObservableCollection<Customer> Customers { get; } = new();
     private Customer? _selectedCustomer;
@@ -28,6 +31,7 @@ public class ProjectEditorViewModel
             _selectedCustomer = value;
             if (value != null)
                 Project.CustomerId = value.Id;
+            OnPropertyChanged(nameof(SelectedCustomer));
         }
     }
 
@@ -39,6 +43,9 @@ public class ProjectEditorViewModel
         SaveCommand = new DelegateCommand(async _ => await SaveAsync());
     }
 
+    private void OnPropertyChanged(string propertyName)
+        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
     public async Task LoadCustomersAsync()
     {
         Customers.Clear();
@@ -49,6 +56,8 @@ public class ProjectEditorViewModel
 
     private async Task SaveAsync()
     {
+        if (SelectedCustomer != null)
+            Project.CustomerId = SelectedCustomer.Id;
         if (Project.Id == 0)
             await _repo.AddProjectAsync(Project);
         else

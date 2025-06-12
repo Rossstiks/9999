@@ -18,7 +18,7 @@ public class ProjectControlContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<Project>()
-            .HasOne<Customer>()
+            .HasOne(p => p.Customer)
             .WithMany()
             .HasForeignKey(p => p.CustomerId)
             .OnDelete(DeleteBehavior.Cascade);

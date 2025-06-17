@@ -37,6 +37,7 @@ public class MainViewModel : INotifyPropertyChanged
             PlayCommand.RaiseCanExecuteChanged();
             PauseCommand.RaiseCanExecuteChanged();
             StopCommand.RaiseCanExecuteChanged();
+            OnPropertyChanged(nameof(SelectedProject));
         }
     }
 

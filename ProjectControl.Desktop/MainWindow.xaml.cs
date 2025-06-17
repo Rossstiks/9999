@@ -28,11 +28,11 @@ public partial class MainWindow : Window
         _ = _vm.LoadProjectsAsync();
     }
 
-    private void OnAddProject(object sender, RoutedEventArgs e)
+    private async void OnAddProject(object sender, RoutedEventArgs e)
     {
         var editorVm = new ProjectEditorViewModel(_repo, _customerRepo);
         var win = new ProjectEditorWindow(editorVm);
-        _ = editorVm.LoadCustomersAsync();
+        await editorVm.LoadCustomersAsync();
         editorVm.Saved += async () =>
         {
             await _vm.LoadProjectsAsync();

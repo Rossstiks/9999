@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Globalization;
 using ProjectControl.Core.Models;
 using ProjectControl.Data;
 
@@ -21,6 +22,7 @@ public class AnalyticsViewModel
     }
 
     public long TotalTimeSpent => Projects.Sum(p => p.TotalTimeSpent);
+    public double TotalPayment => Projects.Sum(p => p.PaymentAmount ?? 0);
 
     public async Task LoadProjectsAsync()
     {
@@ -33,11 +35,12 @@ public class AnalyticsViewModel
     public void ExportCsv(string filePath)
     {
         using var writer = new StreamWriter(filePath, false, Encoding.UTF8);
-        writer.WriteLine("Project,Customer,Time");
+        writer.WriteLine("Project,Customer,Time,Payment");
         foreach (var p in Projects)
         {
             string time = TimeSpan.FromSeconds(p.TotalTimeSpent).ToString(@"hh\:mm\:ss");
-            writer.WriteLine($"{Escape(p.Name)},{Escape(p.Customer?.Name ?? string.Empty)},{time}");
+            string pay = (p.PaymentAmount ?? 0).ToString(CultureInfo.InvariantCulture);
+            writer.WriteLine($"{Escape(p.Name)},{Escape(p.Customer?.Name ?? string.Empty)},{time},{pay}");
         }
     }
 

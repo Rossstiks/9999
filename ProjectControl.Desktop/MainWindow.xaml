@@ -5,7 +5,8 @@
         Title="ProjectControl"
         Height="500"
         Width="1500"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        Background="#FFF0F0F0">
     <Window.Resources>
         <conv:TimeFormatConverter x:Key="TimeFormat" />
         <conv:RunningTimeConverter x:Key="RunningTime" />

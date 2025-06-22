@@ -11,9 +11,9 @@
         <conv:RunningTimeConverter x:Key="RunningTime" />
     </Window.Resources>
     <DockPanel Margin="10">
-        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-            <TextBox Width="150" Margin="0,0,10,0" TextChanged="OnFilterChanged" />
-            <ComboBox Width="120" SelectionChanged="OnSortChanged">
+        <StackPanel Orientation="Vertical" Margin="0,0,0,10" VerticalAlignment="Top">
+            <TextBox Width="150" Margin="0,0,0,5" TextChanged="OnFilterChanged" />
+            <ComboBox Width="150" SelectionChanged="OnSortChanged">
                 <ComboBoxItem Content="По имени" IsSelected="True"/>
                 <ComboBoxItem Content="По времени"/>
             </ComboBox>

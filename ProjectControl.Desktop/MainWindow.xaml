@@ -25,6 +25,7 @@
             <Button Content="＋" Width="50" Margin="5" Click="OnAddProject"/>
             <Button Content="Заказчики" Width="80" Margin="5" Click="OnCustomers"/>
             <Button Content="Аналитика" Width="80" Margin="5" Click="OnAnalytics"/>
+            <Button Content="Тема" Width="60" Margin="5" Click="OnToggleTheme"/>
         </StackPanel>
         <TabControl SelectionChanged="OnTabChanged">
             <TabItem Header="Текущие проекты">

@@ -10,7 +10,7 @@ public class ProjectRepositoryTests
     private static ProjectControlContext CreateContext()
     {
         var options = new DbContextOptionsBuilder<ProjectControlContext>()
-            .UseInMemoryDatabase("testdb")
+            .UseInMemoryDatabase(Guid.NewGuid().ToString())
             .Options;
         return new ProjectControlContext(options);
     }
@@ -78,5 +78,45 @@ public class ProjectRepositoryTests
         Assert.Single(projects);
         Assert.Equal(customer.Id, projects[0].CustomerId);
         Assert.Equal("Cust", projects[0].Customer?.Name);
+    }
+
+    [Fact]
+    public async Task FilterProjectsByPeriodCustomerAndAmount()
+    {
+        using var context = CreateContext();
+        var repo = new ProjectRepository(context);
+        var customer = new Customer { Name = "Cust" };
+        context.Customers.Add(customer);
+        await context.SaveChangesAsync();
+
+        var p1 = new Project
+        {
+            Name = "P1",
+            CustomerId = customer.Id,
+            Status = ProjectStatus.Completed,
+            ActualCompletionDate = new DateTime(2024, 1, 1),
+            PaymentAmount = 100
+        };
+        var p2 = new Project
+        {
+            Name = "P2",
+            CustomerId = customer.Id,
+            Status = ProjectStatus.Completed,
+            ActualCompletionDate = new DateTime(2024, 2, 1),
+            PaymentAmount = 200
+        };
+        await repo.AddProjectAsync(p1);
+        await repo.AddProjectAsync(p2);
+
+        var result = await repo.GetProjectsWithCustomerAsync(
+            ProjectStatus.Completed,
+            new DateTime(2024, 1, 15),
+            new DateTime(2024, 12, 31),
+            customer.Id,
+            150,
+            250);
+
+        Assert.Single(result);
+        Assert.Equal("P2", result[0].Name);
     }
 }

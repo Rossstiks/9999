@@ -21,14 +21,37 @@ public class ProjectRepository
             .AsNoTracking()
             .ToListAsync();
 
-    public async Task<List<Project>> GetProjectsWithCustomerAsync(ProjectStatus? status = null)
+    public async Task<List<Project>> GetProjectsWithCustomerAsync(
+        ProjectStatus? status = null,
+        DateTime? fromDate = null,
+        DateTime? toDate = null,
+        long? customerId = null,
+        double? minAmount = null,
+        double? maxAmount = null)
     {
         var query = _context.Projects
             .Include(p => p.Customer)
             .AsNoTracking()
             .AsQueryable();
+
         if (status != null)
             query = query.Where(p => p.Status == status);
+
+        if (fromDate != null)
+            query = query.Where(p => p.ActualCompletionDate >= fromDate);
+
+        if (toDate != null)
+            query = query.Where(p => p.ActualCompletionDate <= toDate);
+
+        if (customerId != null)
+            query = query.Where(p => p.CustomerId == customerId);
+
+        if (minAmount != null)
+            query = query.Where(p => p.PaymentAmount >= minAmount);
+
+        if (maxAmount != null)
+            query = query.Where(p => p.PaymentAmount <= maxAmount);
+
         return await query.ToListAsync();
     }
 

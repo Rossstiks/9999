@@ -13,6 +13,7 @@ public partial class MainWindow : Window
     private readonly ProjectRepository _repo;
     private readonly CustomerRepository _customerRepo;
     private readonly MainViewModel _vm;
+    private bool _darkTheme;
 
     public MainWindow()
     {
@@ -77,6 +78,15 @@ public partial class MainWindow : Window
         await analyticsVm.LoadProjectsAsync();
         var win = new AnalyticsWindow(analyticsVm);
         win.ShowDialog();
+    }
+
+    private void OnToggleTheme(object sender, RoutedEventArgs e)
+    {
+        _darkTheme = !_darkTheme;
+        if (Application.Current is App app)
+        {
+            app.ApplyTheme(_darkTheme ? "Dark" : "Light");
+        }
     }
 
     private void OnFilterChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)

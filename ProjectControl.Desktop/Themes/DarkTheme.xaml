@@ -1,6 +1,6 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:shell="http://schemas.microsoft.com/winfx/2006/xaml/presentation/shell"
+                    xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
                     xmlns:scm="clr-namespace:System.Windows;assembly=PresentationFramework">
     <Color x:Key="PrimaryBackgroundColor">#FF2E2E2E</Color>
     <Color x:Key="PrimaryForegroundColor">#FFFFFFFF</Color>
@@ -28,7 +28,7 @@
         </Setter>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="Window" xmlns:shell="http://schemas.microsoft.com/winfx/2006/xaml/presentation/shell" xmlns:scm="clr-namespace:System.Windows;assembly=PresentationFramework">
+                <ControlTemplate TargetType="Window" xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework" xmlns:scm="clr-namespace:System.Windows;assembly=PresentationFramework">
                     <Border BorderBrush="{DynamicResource AccentBrush}" BorderThickness="1">
                         <DockPanel>
                             <DockPanel x:Name="PART_TitleBar" Background="{DynamicResource WindowTitleBackground}" Height="30" DockPanel.Dock="Top" shell:WindowChrome.IsHitTestVisibleInChrome="True">

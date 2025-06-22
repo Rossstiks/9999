@@ -72,7 +72,8 @@ public partial class MainWindow : Window
 
     private async void OnAnalytics(object sender, RoutedEventArgs e)
     {
-        var analyticsVm = new AnalyticsViewModel(_repo);
+        var analyticsVm = new AnalyticsViewModel(_repo, _customerRepo);
+        await analyticsVm.LoadCustomersAsync();
         await analyticsVm.LoadProjectsAsync();
         var win = new AnalyticsWindow(analyticsVm);
         win.ShowDialog();

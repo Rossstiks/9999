@@ -7,8 +7,19 @@
         <conv:TimeFormatConverter x:Key="TimeFormat" />
     </Window.Resources>
     <DockPanel Margin="10">
-        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-            <CheckBox Content="Только завершённые" IsChecked="{Binding CompletedOnly}" Checked="OnFilterChanged" Unchecked="OnFilterChanged"/>
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,10" VerticalAlignment="Top">
+            <CheckBox Content="Только завершённые" IsChecked="{Binding CompletedOnly}" Margin="0,0,10,0" Checked="OnFilterChanged" Unchecked="OnFilterChanged"/>
+            <TextBlock Text="От" VerticalAlignment="Center"/>
+            <DatePicker SelectedDate="{Binding FromDate}" Margin="5,0" Width="110"/>
+            <TextBlock Text="До" VerticalAlignment="Center"/>
+            <DatePicker SelectedDate="{Binding ToDate}" Margin="5,0" Width="110"/>
+            <TextBlock Text="Заказчик" VerticalAlignment="Center" Margin="10,0,0,0"/>
+            <ComboBox ItemsSource="{Binding Customers}" SelectedItem="{Binding SelectedCustomer}" DisplayMemberPath="Name" Width="120" Margin="5,0"/>
+            <TextBlock Text="Сумма" VerticalAlignment="Center" Margin="10,0,0,0"/>
+            <TextBox Width="60" Text="{Binding AmountFrom, UpdateSourceTrigger=PropertyChanged}" Margin="5,0"/>
+            <TextBlock Text="-" VerticalAlignment="Center"/>
+            <TextBox Width="60" Text="{Binding AmountTo, UpdateSourceTrigger=PropertyChanged}" Margin="5,0"/>
+            <Button Content="Фильтр" Margin="10,0,0,0" Click="OnFilterChanged" Width="60"/>
         </StackPanel>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
             <Button Content="Экспорт CSV" Width="100" Margin="0,0,10,0" Click="OnExportCsv"/>

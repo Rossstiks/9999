@@ -64,6 +64,7 @@
                                         </MultiBinding>
                                     </TextBlock.Text>
                                 </TextBlock>
+                                <TextBlock Text="{Binding PaymentAmount, StringFormat={}{0:C}}" Width="80" Margin="10,0,0,0"/>
                                 <TextBlock Text="ℹ" Margin="10,0,0,0" ToolTip="{Binding Description}"/>
                             </StackPanel>
                         </DataTemplate>

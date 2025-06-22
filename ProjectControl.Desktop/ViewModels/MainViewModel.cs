@@ -72,6 +72,8 @@ public class MainViewModel : INotifyPropertyChanged
         }
     }
 
+    public Func<Task<double?>>? RequestPaymentAmountAsync { get; set; }
+
     public MainViewModel(ProjectRepository repo)
     {
         _repo = repo;
@@ -147,11 +149,18 @@ public class MainViewModel : INotifyPropertyChanged
         if (SelectedProject == null)
             return;
 
+        if (RequestPaymentAmountAsync == null)
+            return;
+
+        var amount = await RequestPaymentAmountAsync();
+        if (amount == null)
+            return;
+
         await _repo.CompleteProjectAsync(
             SelectedProject.Id,
-            PaymentStatus.Unpaid,
-            0,
-            null,
+            PaymentStatus.Paid,
+            amount.Value,
+            DateTime.Now,
             null);
 
         if (_activeProject?.Id == SelectedProject.Id)

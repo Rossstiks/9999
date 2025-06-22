@@ -79,6 +79,9 @@ public class ProjectRepository
 
     public async Task CompleteProjectAsync(long projectId, PaymentStatus paymentStatus, double amount, DateTime? paymentDate, string? notes)
     {
+        if (amount <= 0)
+            throw new ArgumentException("Amount must be greater than zero", nameof(amount));
+
         await PauseTimerAsync(projectId);
         var project = await _context.Projects.FindAsync(projectId);
         if (project == null) return;

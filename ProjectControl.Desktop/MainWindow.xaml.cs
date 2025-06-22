@@ -1,4 +1,5 @@
 using System.Windows;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ProjectControl.Data;
 using ProjectControl.Desktop.ViewModels;
@@ -24,8 +25,17 @@ public partial class MainWindow : Window
         _repo = new ProjectRepository(context);
         _customerRepo = new CustomerRepository(context);
         _vm = new MainViewModel(_repo);
+        _vm.RequestPaymentAmountAsync = ShowPaymentDialogAsync;
         DataContext = _vm;
         _ = _vm.LoadProjectsAsync();
+    }
+
+    private Task<double?> ShowPaymentDialogAsync()
+    {
+        var win = new PaymentWindow();
+        return win.ShowDialog() == true
+            ? Task.FromResult<double?>(win.Amount)
+            : Task.FromResult<double?>(null);
     }
 
     private async void OnAddProject(object sender, RoutedEventArgs e)
